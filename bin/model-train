@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source `dirname $BASH_SOURCE`/setup.sh 
+exec  python3 -u $DENET_DIR/denet/model/train.py "$@"
+
+
