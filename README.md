@@ -1,4 +1,4 @@
-#DeNet
+DeNet
 -----------
 A simple extendable library for training and evaluating Deep Convolutional Neural Networks focussing on image classification and detection. 
 
