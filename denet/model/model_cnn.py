@@ -445,8 +445,7 @@ class ModelCNN():
         return costs[0], costs[1:] 
 
     def train_epoch(self, dataset, epoch, learning_rate, momentum=[0,1,0], decay=0.0, solver_mode="sgd"):
-        assert "train" in self.func, "Call build_train_func() before calling train_epoch()"
-
+        
         #train over batches (assume dataset size is mulitple of batch_size!)
         logging.info("Evaluating training function")
         dataset_x, dataset_m, dataset_size = dataset.export(self.batch_size)

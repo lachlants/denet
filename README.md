@@ -8,8 +8,20 @@ Requirements
 * numpy
 * pillow
 * scipy
-* theano REQUIRES v8.1 (doesn't work with new gpuarray interface in v9.0)
+* theano REQUIRES development version (see below)
 * cudnn 
+
+Installation
+-----------
+
+DeNet currently requires the development version of Theano:
+1. Download Theano git e.g.
+    git clone https://github.com/Theano/Theano.git
+2. Revert to revision used in the paper (might not be neccessary):
+    git checkout fadc8be492628dcef4760ab4cfcd147824a8226f
+3. Setup PYTHONPATH environment variable:
+    export PYTHONPATH=<theano git dir>:$PYTHONPATH
+Probably want to add this command to your .bashrc so it doesn't have to be run repetitively.
 
 Features
 -----------
