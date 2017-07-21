@@ -457,7 +457,7 @@ class ModelCNN():
             timer = common.Timer()
             data_x = dataset_x[index * self.batch_size : (index + 1) * self.batch_size]
             data_m = dataset_m[index * self.batch_size : (index + 1) * self.batch_size]
-            cost, _ = self.train_step(data_x, data_m, epoch, self.iteration, learaning_rate, momentum, decay)
+            cost, _ = self.train_step(data_x, data_m, epoch, self.iteration, learning_rate, momentum, decay)
 
             #watch out for GPU's randomly producing NaN!
             if math.isnan(cost):
