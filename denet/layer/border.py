@@ -33,12 +33,11 @@ class BorderLayer(AbstractLayer):
         self.output = tensor.set_subtensor(self.output[:,:, self.border[2]:(self.input_shape[-2]+self.border[2]), self.border[0]:(self.input_shape[-1]+self.border[0])], self.input)
 
         logging.verbose("Adding", self)
-        # logging.verbose("Adding", self, "layer - input: ", self.input_shape, "border:", self.border)
 
     def parse_desc(layers, name, tags, params):
         if name != "B":
             return False
-        layer.append(BorderLayer(layers, params.get(0,0)))
+        layers.append(BorderLayer(layers, params.get(0,0)))
         return True
 
     def export_json(self):
