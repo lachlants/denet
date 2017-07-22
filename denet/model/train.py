@@ -26,9 +26,9 @@ def compute_error(data, model):
         #test_data = data.prepare(model.width, model.height, model.image_border, model.distort_mode, training=False)
  
         logging.info("Computing error...")
-        labels_predict = model.predict_label(test_data)
-        labels = test_data.get_labels()
-        for i in range(len(test_data)):
+        labels_predict = model.predict_label(data)
+        labels = data.get_labels()
+        for i in range(len(data)):
             class_samples[labels[i]] += 1
             if labels_predict[i] != labels[i]:
                 class_errors[labels[i]] += 1
