@@ -84,15 +84,15 @@ cd $OUTPUT_DIR
 if [ ! -f "./initial.mdl.gz" ]; then
     echo "Modifying base model..."
     if [[ $MODEL_VAR == "skip" ]]; then
-	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/resnet34.mdl.gz --output initial_skipsrc.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool  --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-insert 11:SKIPSRC.X[0] 18:SKIPSRC.X[1] > ./modify_skipsrc.out 2> modify_skipsrc.err
+	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/imagenet/resnet34.mdl.gz --output initial_skipsrc.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool  --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-insert 11:SKIPSRC.X[0] 18:SKIPSRC.X[1] > ./modify_skipsrc.out 2> modify_skipsrc.err
 	$DENET_DIR/bin/model-modify --input initial_skipsrc.mdl.gz --output initial.mdl.gz --layer-append $MODEL_DESC > ./modify.out 2> modify.err
 
     elif [[ $MODEL_VAR == "wide" ]]; then
-	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/resnet34.mdl.gz --output initial_skipsrc.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool  --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-insert 7:SKIPSRC[0] 12:SKIPSRC.X[1] 19:SKIPSRC.X[2] > ./modify_skipsrc.out 2> modify_skipsrc.err
+	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/imagenet/resnet34.mdl.gz --output initial_skipsrc.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool  --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-insert 7:SKIPSRC[0] 12:SKIPSRC.X[1] 19:SKIPSRC.X[2] > ./modify_skipsrc.out 2> modify_skipsrc.err
 	$DENET_DIR/bin/model-modify --input initial_skipsrc.mdl.gz --output initial.mdl.gz --layer-append $MODEL_DESC > ./modify.out 2> modify.err
 
     else
-	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/resnet34.mdl.gz --output initial.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-append $MODEL_DESC > ./modify.out 2> modify.err
+	$DENET_DIR/bin/model-modify --input $DENET_DIR/models/imagenet/resnet34.mdl.gz --output initial.mdl.gz --modify-bn 1 0.9 1e-5 --convert-bn-relu --use-cudnn-pool --class-num $CLASS_NUM --image-size 512 512 --layer-remove 3 --layer-append $MODEL_DESC > ./modify.out 2> modify.err
     fi
 fi
 

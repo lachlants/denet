@@ -103,6 +103,12 @@ Common Layer Types:
 
 Please refer to parse_desc() in the layer .py files for all arguments e.g. see /src/layer/batch_norm.py
 
+Models
+-----------
+For DSS paper we require pretrained imagenet models to be place in ./models/imagenet/ directory:
+* ResNet-34: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrYVRIZlpkTHllMW8/view?usp=sharing)
+* ResNet-101: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrVll6VmF0cWlPZEk/view?usp=sharing)
+
 Contact
 -----------
 * Lachlan Tychsen-Smith (Research Engineer @ Data61, CSIRO, Australia) - lachlan.ts@gmail.com or Lachlan.Tychsen-Smith@data61.csiro.au
