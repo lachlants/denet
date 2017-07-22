@@ -22,9 +22,9 @@ def compute_error(data, model):
     for subset in range(data.subset_num):
         data.load_from_subset(subset)
 
-        logging.info("Preparing test data")
-        test_data = data.prepare(model.width, model.height, model.image_border, model.distort_mode, training=False)
-
+        #logging.info("Preparing test data")
+        #test_data = data.prepare(model.width, model.height, model.image_border, model.distort_mode, training=False)
+ 
         logging.info("Computing error...")
         labels_predict = model.predict_label(test_data)
         labels = test_data.get_labels()
