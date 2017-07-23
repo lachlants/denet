@@ -16,11 +16,17 @@ Installation
 
 DeNet currently requires the development version of Theano:
 1. Download Theano git e.g.
+
     git clone https://github.com/Theano/Theano.git
+
 2. Revert to revision used in the paper (might not be neccessary):
+
     git checkout fadc8be492628dcef4760ab4cfcd147824a8226f
+
 3. Setup PYTHONPATH environment variable:
-    export PYTHONPATH=<theano git dir>:$PYTHONPATH
+
+    export PYTHONPATH=theano_git_dir:$PYTHONPATH
+
 Probably want to add this command to your .bashrc so it doesn't have to be run repetitively.
 
 Features
@@ -105,9 +111,11 @@ Please refer to parse_desc() in the layer .py files for all arguments e.g. see /
 
 Models
 -----------
-For DSS paper we require pretrained imagenet models to be place in ./models/imagenet/ directory:
+For DSS paper we require pretrained imagenet models to be place in /models/imagenet/ directory:
 * ResNet-34: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrYVRIZlpkTHllMW8/view?usp=sharing)
 * ResNet-101: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrVll6VmF0cWlPZEk/view?usp=sharing)
+
+See /models/mscoco/README.md for pretrained DSS models.
 
 Contact
 -----------

@@ -16,3 +16,6 @@ where
 * MODEL_VARIANT is either "std", "skip" or "wide"
 * DATA_TYPE is either "mscoco", "voc2007" or "voc2012"
 * DATA_DIR is the directory containing the relevant dataset e.g. for voc2007/voc2012 we require the 'VOCdevkit' directory containing both extracted datasets, for mscoco we need the directory containing the extracted "annotations", "test2015", "train2014" and "val2014" directories. 
+
+## Pretrained Models
+Pretrained models can be downloaded by following the instructions in /models/mscoco
