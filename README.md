@@ -109,13 +109,13 @@ Common Layer Types:
 
 Please refer to parse_desc() in the layer .py files for all arguments e.g. see /src/layer/batch_norm.py
 
-Models
+Pretrained Models
 -----------
 For DSS paper we require pretrained imagenet models to be place in /models/imagenet/ directory:
-* ResNet-34: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrYVRIZlpkTHllMW8/view?usp=sharing)
-* ResNet-101: [Google Drive](https://drive.google.com/file/d/0B2Y3zi7OSEbrVll6VmF0cWlPZEk/view?usp=sharing)
+* ResNet-34: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrYVRIZlpkTHllMW8)
+* ResNet-101: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrVll6VmF0cWlPZEk)
 
-See /models/mscoco/README.md for pretrained DSS models.
+See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DSS models.
 
 Contact
 -----------
