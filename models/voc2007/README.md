@@ -3,8 +3,8 @@ By Lachlan Tychsen-Smith (research engineer), Lars Petersson (supervisor)
 https://arxiv.org/abs/1703.10295
 
 ## Model Downloads
-* DeNet-34: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrN0piUTFQNThwV1k)
-* DeNet-101: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrYW5YZHYyMmpTQkE)
+* DeNet-34 skip: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrNzFKbXZDb2d1REE)
+* DeNet-101 skip: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrdE9MbERvUjNiV2s)
 
 ## Prediction
 Use the following command to evaluation models on gpu0:
