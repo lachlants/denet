@@ -112,6 +112,10 @@ Please refer to parse_desc() in the layer .py files for all arguments e.g. see /
 Pretrained Models
 -----------
 
+For DSS paper training we require pretrained imagenet models
+
+See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DSS models for prediction.
+
 Use models/download.sh script to download models from google-drive
 
 Usage:
@@ -120,17 +124,13 @@ Usage:
 
 will search SEARCH_DIR for DRIVE_IDS files
 
-* download all models:
+e.g. download all models:
 
     models/download.sh ./models
 
-* download only imagnet models:
+e.g. download only imagnet models:
 
     models/download.sh ./models/imagenet
-
-For DSS paper training we require pretrained imagenet models
-
-See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DSS models.
 
 Contact
 -----------
