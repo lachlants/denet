@@ -111,9 +111,24 @@ Please refer to parse_desc() in the layer .py files for all arguments e.g. see /
 
 Pretrained Models
 -----------
-For DSS paper we require pretrained imagenet models to be place in /models/imagenet/ directory:
-* ResNet-34: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrYVRIZlpkTHllMW8)
-* ResNet-101: [Google Drive](https://drive.google.com/uc?export=download&id=0B2Y3zi7OSEbrVll6VmF0cWlPZEk)
+
+Use models/download.sh script to download models from google-drive
+
+Usage:
+
+    models/download.sh SEARCH_DIR
+
+will search SEARCH_DIR for DRIVE_IDS files
+
+* download all models:
+
+    models/download.sh ./models
+
+* download only imagnet models:
+
+    models/download.sh ./models/imagenet
+
+For DSS paper training we require pretrained imagenet models
 
 See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DSS models.
 
