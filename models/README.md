@@ -1,4 +1,5 @@
-#Downloading models
+Downloading models
+-------------------------
 
 Use download.sh script to download models from google-drive
 Usage:
