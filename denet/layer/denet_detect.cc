@@ -4,11 +4,12 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <list>
 
 #include "numpy/arrayobject.h"
 #include "theano_mod_helper.h"
 
-typedef std::tuple<float, float, float, float, float, npy_intp, npy_intp> Instance;
+typedef std::tuple<float, float, float, float, float, npy_intp, npy_intp, npy_intp> Instance;
 static float get_overlap_iou(const Instance& inst_a, const Instance& inst_b){
     float x0_a = std::get<1>(inst_a);
     float y0_a = std::get<2>(inst_a);
@@ -29,19 +30,91 @@ static float get_overlap_iou(const Instance& inst_a, const Instance& inst_b){
     return area_intersect / area_union;
 };
 
+//SOFT NMS - Guassian method, note that instance "scores" (and discard threshold) are kept in logarithmic basis 
+//- https://arxiv.org/abs/1704.04503
+static std::vector<Instance> perform_soft_nms(const std::vector<Instance>& instances, const float& nms_threshold, const float& discard_threshold = -6.9){
+
+    std::vector<Instance> D;
+    std::list<Instance> B(instances.begin(), instances.end());
+    while(!B.empty()){
+
+        //find instance with max score 
+        std::list<Instance>::iterator m_it = B.begin();
+        for(auto it = B.begin(); it != B.end(); it++){
+            if (std::get<0>(*it) > std::get<0>(*m_it)){
+                m_it = it;
+            }
+        }
+
+        //add max_score instance to dets and remove from B
+        Instance M = *m_it;
+        D.push_back(M);
+        B.erase(m_it);
+        
+        //rescore all existing instances
+        for(auto it = B.begin(); it != B.end(); it++){
+            float iou = get_overlap_iou(M, *it);
+            std::get<0>(*it) -= iou*iou / nms_threshold;
+        }
+
+        //remove instances with scores below discard threshold
+        std::list<Instance>::iterator it = B.begin();
+        while(it != B.end()){
+            if (std::get<0>(*it) < discard_threshold){
+                it = B.erase(it);
+            } else {
+                it++;
+            }
+        }
+    }
+    return D;
+}
+
+static std::vector<Instance> perform_nms(const std::vector<Instance>& instances, int b, int cls, int sample_num,
+                                         float nms_threshold, bool use_soft_nms=false){
+
+    if ((nms_threshold <= 0.0) || (nms_threshold >= 1.0) || instances.size() == 0)
+        return instances;
+
+    std::vector<Instance> instances_nms;
+    if (use_soft_nms){
+        instances_nms = perform_soft_nms(instances, nms_threshold);
+    } else {
+        for(const Instance& inst_a: instances){
+            bool unique=true;
+            for(const Instance& inst_b : instances){
+                if ((std::get<0>(inst_a) < std::get<0>(inst_b)) && (get_overlap_iou(inst_a, inst_b) > nms_threshold)){
+                    unique = false;
+                    break;
+                }
+            }
+            if (unique)
+                instances_nms.push_back(inst_a);
+        };
+    }
+
+    return instances_nms;
+};
+
 static PyObject* build_detections_nms(PyObject *self, PyObject *args) {
 
     //get args
     float pr_threshold; 
     float nms_threshold; 
+    int use_soft_nms; 
     PyObject* det_obj; //ndarray
+    PyObject* fitness_obj; //ndarray
     PyObject* bbox_obj; //ndarray
     PyObject* bbox_num; //list of int
-    if (!PyArg_ParseTuple(args, "ffOOO", &pr_threshold, &nms_threshold, &det_obj, &bbox_obj, &bbox_num))
+    if (!PyArg_ParseTuple(args, "ffiOOOO", &pr_threshold, &nms_threshold, &use_soft_nms, &det_obj, &fitness_obj, &bbox_obj, &bbox_num))
         return NULL;
 
     PyArrayObject* det_pr = (PyArrayObject*)PyArray_FROM_OTF(det_obj, NPY_FLOAT, NPY_IN_ARRAY);
-    if (det_pr == NULL)
+    if (det_pr==NULL)
+        return NULL;
+
+    PyArrayObject* fitness = (PyArrayObject*)PyArray_FROM_OTF(fitness_obj, NPY_FLOAT, NPY_IN_ARRAY);
+    if (fitness==NULL)
         return NULL;
 
     PyArrayObject* bbox = (PyArrayObject*)PyArray_FROM_OTF(bbox_obj, NPY_FLOAT, NPY_IN_ARRAY);
@@ -57,8 +130,9 @@ static PyObject* build_detections_nms(PyObject *self, PyObject *args) {
     for(npy_intp b=0; b < batch_size; b++){
 
         long batch_bbox_num = PyLong_AS_LONG(PyList_GET_ITEM(bbox_num, b));
-        PyObject* batch_dets = PyList_New(0);
         size_t before_nms=0, after_nms=0;
+
+        std::vector<Instance> instances_all;
         for(npy_intp cls=0; cls < class_num; cls++){
 
             std::vector<Instance> instances;
@@ -67,46 +141,32 @@ static PyObject* build_detections_nms(PyObject *self, PyObject *args) {
 
                     float log_pr = *(float*)PyArray_GETPTR4(det_pr, b, cls, j, i);
                     if (log_pr >= log_pr_threshold){
+                        float det_fitness = *(float*)PyArray_GETPTR4(fitness, b, cls, j, i);
                         float* det_bbox = (float*)PyArray_GETPTR4(bbox, b, j, i, 0);
-                        instances.push_back(Instance(log_pr, det_bbox[0], det_bbox[1], det_bbox[2], det_bbox[3], j, i));
+                        instances.push_back(Instance(det_fitness, det_bbox[0], det_bbox[1], det_bbox[2], det_bbox[3], cls, j, i));
                     }
                 }
             }
-            before_nms += instances.size();
 
             //run NMS
-            std::vector<Instance> instances_nms;
-            if ((nms_threshold > 0.0) && (nms_threshold < 1.0)){
-                
-                for(const Instance& inst_a: instances){
-                    bool unique=true;
-                    for(const Instance& inst_b : instances){
-                        if ((std::get<0>(inst_a) < std::get<0>(inst_b)) && (get_overlap_iou(inst_a, inst_b) > nms_threshold)){
-                            unique = false;
-                            break;
-                        }
-                    }
-                    if (unique)
-                        instances_nms.push_back(inst_a);
-                };
-                
-            } else {
-                instances_nms = instances;
-            }
+            before_nms += instances.size();
+            std::vector<Instance> instances_nms = perform_nms(instances, b, cls, sample_num, nms_threshold, use_soft_nms);
+            instances_all.insert(instances_all.end(), instances_nms.begin(), instances_nms.end());
             after_nms += instances_nms.size();
-
-            for(const Instance& inst: instances_nms){
-                PyObject* det = Py_BuildValue("fi(ffff)", std::exp(std::get<0>(inst)), cls, std::get<1>(inst), std::get<2>(inst), std::get<3>(inst), std::get<4>(inst));
-                PyList_Append(batch_dets, det);
-                Py_DECREF(det);
-            }
         }
-        // printf("%i - NMS before: %zu, after %zu\n", b, before_nms, after_nms);
+
+        PyObject* batch_dets = PyList_New(0);
+        for(const Instance& inst: instances_all){
+            PyObject* det = Py_BuildValue("fi(ffff)", std::exp(std::get<0>(inst)), std::get<5>(inst), std::get<1>(inst), std::get<2>(inst), std::get<3>(inst), std::get<4>(inst));
+            PyList_Append(batch_dets, det);
+            Py_DECREF(det);
+        }
         PyList_Append(det_lists, batch_dets);
         Py_DECREF(batch_dets);
     }
     
     Py_DECREF(det_pr);
+    Py_DECREF(fitness);
     Py_DECREF(bbox);
     return det_lists;
 

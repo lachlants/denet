@@ -19,7 +19,7 @@ DeNet currently requires the development version of Theano:
 
     git clone https://github.com/Theano/Theano.git
 
-2. Revert to revision used in the paper (might not be neccessary):
+2. Revert to revision used in the papers (might not be neccessary):
 
     git checkout fadc8be492628dcef4760ab4cfcd147824a8226f
 
@@ -32,6 +32,7 @@ Probably want to add this command to your .bashrc so it doesn't have to be run r
 Features
 -----------
 * Reference "DeNet: Scalable real-time object detection with directed sparse sampling" implementation (see /papers/dss/)
+* Reference "Improving Object Localization with Fitness NMS and Bounded IoU Loss" implementation
 * GPU optimized sparse sampling op and pool inv op
 * Ability to split model into multiple executions for training (useful for very large models)
 * Training on Multiple GPU's
@@ -114,7 +115,7 @@ Pretrained Models
 
 For DSS paper training we require pretrained imagenet models
 
-See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DSS models for prediction.
+See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DeNet models.
 
 Use models/download.sh script to download models from google-drive
 
@@ -131,6 +132,27 @@ e.g. download all models:
 e.g. download only imagnet models:
 
     models/download.sh ./models/imagenet
+
+MSCOCO Results with Pretrained Models:
+
+|--------------------------|-----------|--------------------|-------------|--------------|
+| Model                    |Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
+|--------------------------|-----------|--------------------|-------------|--------------|
+| DeNet34 skip (v1)        |   82 Hz   |        29.5%       |    47.7%    |     31.1%    |
+| DeNet34 wide (v1)        |   44 Hz   |        30.0%       |    48.9%    |     31.8%    |
+| DeNet101 skip (v1)       |   33 Hz   |        32.3%       |    51.4%    |     34.6%    |
+| DeNet101 wide (v1)       |   17 Hz   |        33.8%       |    53.4%    |     36.1%    |
+|--------------------------|-----------|--------------------|-------------|--------------|
+| DeNet34 wide (v2)        |   80 Hz   |        33.4%       |    49.8%    |     35.8%    |
+| DeNet101 wide (v2)       |   21 Hz   |        36.8%       |    53.9%    |     39.3%    |
+| DeNet101 wide x768 (v2)  |   11 Hz   |        39.5%       |    58.0%    |     42.6%    |
+|--------------------------|-----------|--------------------|-------------|--------------|
+
+v1 models are from the original paper
+v2 models are from the 2nd paper and include Joint fitness NMS, bounded IoU loss and corner clustering
+The DeNet101wide x768 (v2) model is the DeNet101 wide (v2) model evaluated with 768x768 pixel input images and
+1296 sample RoIs
+Evaluation rate is for Titan X (Maxwell) GPU, Cuda v8.0 and CuDNN v5110
 
 Contact
 -----------
