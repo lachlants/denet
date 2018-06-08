@@ -137,6 +137,16 @@ The DeNet101wide x768 (v2) model is the DeNet101 wide (v2) model evaluated with 
 Evaluation rate is for Titan X (Maxwell) GPU, Cuda v8.0 and CuDNN v5110. Note that variations in these versions
 can cause the MAP to fluctuate a bit e.g. +- 0.2%
 
+Modifying models
+-----------
+Use the model-modify application to modify parameters for existing models and layers. 
+e.g. to run prediction with 768x768 input images and 1296 RoIs use:
+
+    model-modify --input MODEL --output MODEL_X768 --image-size 768 768 --modify-layer denet-sparse sample_num=36
+    GPU=0 model-predict --batch-size 8 --thread-num 4 --predict-mode detect,mscoco --input MSCOCO_DIR --model MODEL_X768 --extension mscoco,2015-test-dev,images_per_subset=128,crop=768,scale_mode=large
+
+Note the change to the "crop" parameter in the model-predict extension argument. 
+
 Contact
 -----------
 * Lachlan Tychsen-Smith (Research Engineer @ Data61, CSIRO, Australia) - lachlan.ts@gmail.com or Lachlan.Tychsen-Smith@data61.csiro.au
