@@ -135,23 +135,23 @@ e.g. download only imagnet models:
 
 MSCOCO Results with Pretrained Models:
 
-|--------------------------|-----------|--------------------|-------------|--------------|
-| Model                    |Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
-|--------------------------|-----------|--------------------|-------------|--------------|
-| DeNet34 skip (v1)        |   82 Hz   |        29.5%       |    47.7%    |     31.1%    |
-| DeNet34 wide (v1)        |   44 Hz   |        30.0%       |    48.9%    |     31.8%    |
-| DeNet101 skip (v1)       |   33 Hz   |        32.3%       |    51.4%    |     34.6%    |
-| DeNet101 wide (v1)       |   17 Hz   |        33.8%       |    53.4%    |     36.1%    |
-|--------------------------|-----------|--------------------|-------------|--------------|
-| DeNet34 wide (v2)        |   80 Hz   |        33.4%       |    49.8%    |     35.8%    |
-| DeNet101 wide (v2)       |   21 Hz   |        36.8%       |    53.9%    |     39.3%    |
-| DeNet101 wide x768 (v2)  |   11 Hz   |        39.5%       |    58.0%    |     42.6%    |
-|--------------------------|-----------|--------------------|-------------|--------------|
+| Model                    | Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
+| ------------------------ |:----------:|:------------------:|:-----------:|:------------:|
+| DeNet34 skip (v1)        |    82 Hz   |        29.5%       |    47.7%    |     31.1%    |
+| DeNet34 wide (v1)        |    44 Hz   |        30.0%       |    48.9%    |     31.8%    |
+| DeNet101 skip (v1)       |    33 Hz   |        32.3%       |    51.4%    |     34.6%    |
+| DeNet101 wide (v1)       |    17 Hz   |        33.8%       |    53.4%    |     36.1%    |
+| DeNet34 wide (v2)        |    80 Hz   |        33.4%       |    49.8%    |     35.8%    |
+| DeNet101 wide (v2)       |    21 Hz   |        36.8%       |    53.9%    |     39.3%    |
+| DeNet101 wide x768 (v2)  |    11 Hz   |        39.5%       |    58.0%    |     42.6%    |
 
 v1 models are from the original paper
+
 v2 models are from the 2nd paper and include Joint fitness NMS, bounded IoU loss and corner clustering
+
 The DeNet101wide x768 (v2) model is the DeNet101 wide (v2) model evaluated with 768x768 pixel input images and
 1296 sample RoIs
+
 Evaluation rate is for Titan X (Maxwell) GPU, Cuda v8.0 and CuDNN v5110
 
 Contact
