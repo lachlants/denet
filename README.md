@@ -113,27 +113,9 @@ Please refer to parse_desc() in the layer .py files for all arguments e.g. see /
 Pretrained Models
 -----------
 
-For DSS paper training we require pretrained imagenet models
+See [MSCOCO](/models/mscoco/README.md) and [VOC2007](/models/voc2007/README.md) for pretrained DeNet models.
 
-See /models/mscoco/README.md and /models/voc2007/README.md for pretrained DeNet models.
-
-Use models/download.sh script to download models from google-drive
-
-Usage:
-
-    models/download.sh SEARCH_DIR
-
-will search SEARCH_DIR for DRIVE_IDS files
-
-e.g. download all models:
-
-    models/download.sh ./models
-
-e.g. download only imagnet models:
-
-    models/download.sh ./models/imagenet
-
-MSCOCO Results with Pretrained Models:
+## MSCOCO Results with Pretrained Models:
 
 | Model                    | Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
 | ------------------------ |:----------:|:------------------:|:-----------:|:------------:|
