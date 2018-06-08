@@ -113,9 +113,9 @@ Please refer to parse_desc() in the layer .py files for all arguments e.g. see /
 Pretrained Models
 -----------
 
-See [MSCOCO](/models/mscoco/README.md) and [VOC2007](/models/voc2007/README.md) for pretrained DeNet models.
+See [MSCOCO](/models/mscoco/README.md) and [VOC2007](/models/voc2007/README.md) to download pretrained DeNet models.
 
-### MSCOCO Results with Pretrained Models:
+### MSCOCO Results:
 
 | Model                    | Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
 | ------------------------ |:----------:|:------------------:|:-----------:|:------------:|
