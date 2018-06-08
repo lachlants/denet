@@ -115,7 +115,7 @@ Pretrained Models
 
 See [MSCOCO](/models/mscoco/README.md) and [VOC2007](/models/voc2007/README.md) for pretrained DeNet models.
 
-## MSCOCO Results with Pretrained Models:
+### MSCOCO Results with Pretrained Models:
 
 | Model                    | Eval. Rate | MAP@IoU=[0.5:0.95] | MAP@IoU=0.5 | MAP@IoU=0.75 |
 | ------------------------ |:----------:|:------------------:|:-----------:|:------------:|
@@ -134,7 +134,8 @@ v2 models are from the 2nd paper and include Joint fitness NMS, bounded IoU loss
 The DeNet101wide x768 (v2) model is the DeNet101 wide (v2) model evaluated with 768x768 pixel input images and
 1296 sample RoIs
 
-Evaluation rate is for Titan X (Maxwell) GPU, Cuda v8.0 and CuDNN v5110
+Evaluation rate is for Titan X (Maxwell) GPU, Cuda v8.0 and CuDNN v5110. Note that variations in these versions
+can cause the MAP to fluctuate a bit e.g. +- 0.2%
 
 Contact
 -----------
